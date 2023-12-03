@@ -1,0 +1,60 @@
+import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+public class userBean implements Serializable {
+
+    private String firstName;
+    private String lastName;
+    private String username;
+    private String email;
+
+    public userBean() {
+        // Default constructor
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    // Method to insert a new user into the database
+    public void insertUser(Connection connection) throws SQLException {
+        String insertUserQuery = "INSERT INTO YourUserTable (firstName, lastName, username, email) VALUES (?, ?, ?, ?)";
+        try (PreparedStatement insertUserStmt = connection.prepareStatement(insertUserQuery)) {
+            insertUserStmt.setString(1, firstName);
+            insertUserStmt.setString(2, lastName);
+            insertUserStmt.setString(3, username);
+            insertUserStmt.setString(4, email);
+            insertUserStmt.executeUpdate();
+        }
+    }
+}
